@@ -1,2 +1,10 @@
 springdoc:
   show-actuator: true
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-41tfcxyn.us.auth0.com/
+auth0:
+  audience: https://api.psychology.ml/
