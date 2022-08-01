@@ -1,5 +1,3 @@
-springdoc:
-  show-actuator: true
 spring:
   security:
     oauth2:
@@ -7,4 +5,15 @@ spring:
         jwt:
           issuer-uri: https://dev-41tfcxyn.us.auth0.com/
 auth0:
-  audience: https://api.psychology.ml/
+  audience: &audience https://api.psychology.ml/
+springdoc:
+  swagger-ui:
+    oauth:
+      clientId: CsKG8IB5gjo4XJLU0nqeaNnWvu0CDiKT
+      use-pkce-with-authorization-code-grant: true
+      additional-query-string-params:
+        audience: *audience
+  oAuthFlow:
+    authorizationUrl: https://dev-41tfcxyn.us.auth0.com/authorize
+    tokenUrl: https://dev-41tfcxyn.us.auth0.com/oauth/token
+  show-actuator: true
