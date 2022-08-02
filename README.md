@@ -28,12 +28,20 @@
 
 <div dir="ltr">
 
+### Unix Based
+
 ``` shell
 ./gradlew bootRun
 ```
 
+### Windows
+
+``` 
+.\gradlew.bat bootRun
+```
+
 </div>
 
-> **_نکته:_** بعد از اجرای برنامه، پنل دیتابیس H2 در مسیر `localhost:4200/h2-console` در دسترس است. و همچنین مستندات API در مسیر `localhost:4200/swagger-ui/index.html` در دسترس است.
+> **_نکته:_** بعد از اجرای برنامه، پنل دیتابیس H2 در مسیر [`localhost:8080/h2-console`](localhost:8080/h2-console) در دسترس است. و همچنین مستندات API در مسیر [`localhost:8080/swagger-ui/index.html`](localhost:8080/swagger-ui/index.html) در دسترس است.
 
 </div>
