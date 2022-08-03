@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000
+      author: hasan
+      changes:
+        - createSequence:
+            sequenceName: hibernate_sequence
+            startValue: 10_000_000_100
+            incrementBy: 1

@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
-      file: /db/changelog/000-initial-user-schema.yaml
+      file: /db/changelog/001-initial.yaml
+  - include:
+      file: /db/changelog/001-wais-iv-assessment-schema.yaml
