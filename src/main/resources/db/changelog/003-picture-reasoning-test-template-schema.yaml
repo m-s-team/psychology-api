@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000
+      author: hasan
+      changes:
+        - createTable:
+            tableName: picture_reasoning_test_template
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: image_url1
+                  type: varchar(255)
+              - column:
+                  name: image_url2
+                  type: varchar(255)
+              - column:
+                  name: image_url3
+                  type: varchar(255)
+              - column:
+                  name: image_url4
+                  type: varchar(255)
+              - column:
+                  name: image_url5
+                  type: varchar(255)
+              - column:
+                  name: correct_answer
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: question_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 000-data
+      author: hasan
+      changes:
+        - loadData:
+            tableName: picture_reasoning_test_template
+            file: /db/fake-data/picture_reasoning_test_template.csv
+            separator: ;

@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000
+      author: hasan
+      changes:
+        - createTable:
+            tableName: picture_reasoning_question_template
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: image_url
+                  type: varchar(255)
+  - changeSet:
+      id: 000-data
+      author: hasan
+      changes:
+        - loadData:
+            tableName: picture_reasoning_question_template
+            file: /db/fake-data/picture_reasoning_question_template.csv
+            separator: ;

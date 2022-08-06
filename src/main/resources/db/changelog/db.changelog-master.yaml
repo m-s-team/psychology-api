@@ -1,5 +1,11 @@
 databaseChangeLog:
   - include:
-      file: /db/changelog/001-initial.yaml
+      file: /db/changelog/000-initial.yaml
   - include:
       file: /db/changelog/001-wais-iv-assessment-schema.yaml
+  - include:
+      file: /db/changelog/002-picture-reasoning-test-result-schema.yaml
+  - include:
+      file: /db/changelog/003-picture-reasoning-test-template-schema.yaml
+  - include:
+      file: /db/changelog/004-picture-reasoning-question-template-schema.yaml

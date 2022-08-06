@@ -16,36 +16,41 @@ springdoc:
   oAuthFlow:
     authorizationUrl: https://dev-41tfcxyn.us.auth0.com/authorize
     tokenUrl: https://dev-41tfcxyn.us.auth0.com/oauth/token
-  show-actuator: true
+  show-actuator: false
 
 ---
 api:
 
+  static:
+    baseUrl: https://static.psychology.ml
+
   responseCodes:
     ok.description: OK
+    created.description: The request succeeded, and a new resource was created as a result
     badRequest.description: Bad Request, invalid format of the request. See response message for more information
     notFound.description: Not found, the specified id does not exist
     unprocessableEntity.description: Unprocessable entity, input parameters caused the processing to fail. See response message for more information
     unauthorized.description: The request has not been applied because it lacks valid authentication credentials for the target resource
     forbidden.description: Access is permanently forbidden
+    conflict.description: Conflict with the current state
 
   waisIvAssessment:
     createWaisIvAssessment:
       description: Create a new WAIS-IV assessment for the current user
       notes: |
-        # Normal response
+        ### Normal response
         A new WAIS-IV assessment will be create with ID of the user
 
-        # Expected error responses
+        ### Expected error responses
         If the user isn't logged in, an **401 - Unauthorized** error message will be returned
 
     getWaisIvAssessment:
       description: Returns the specified WAIS-IV
       notes: |
-        # Normal response
+        ### Normal response
         The specified WAIS-IV assessment will be returned
         
-        # Expected error responses
+        ### Expected error responses
         If the user isn't logged in, an **401 - Unauthorized** error message will be returned
 
         If the user isn't the owner of the assessment, an **403 - Forbidden** error message will be returned
@@ -55,19 +60,19 @@ api:
     getAllWaisIvAssessment:
       description: Returns an array of WAIS-IV assessments of the current user
       notes: |
-        # Normal response
+        ### Normal response
         If the user is logged in, server returns an array of WAIS-IV assessments of the current user
         
-        # Expected error responses
+        ### Expected error responses
         If the user isn't logged in, an **401 - Unauthorized** error message will be returned
 
     updateWaisIvAssessment:
       description: Update and returns the specified WAIS-IV
       notes: |
-        # Normal response
+        ### Normal response
         The specified WAIS-IV assessment that is updated will be returned
         
-        # Expected error responses
+        ### Expected error responses
         If the user isn't logged in, an **401 - Unauthorized** error message will be returned
 
         If the user isn't the owner of the assessment, an **403 - Forbidden** error message will be returned
@@ -77,10 +82,10 @@ api:
     deleteWaisIvAssessment:
       description: Delete the specified WAIS-IV assessment
       notes: |
-        # Normal response
+        ### Normal response
         The specified WAIS-IV assessment will be deleted.
 
-        # Expected error responses
+        ### Expected error responses
         If the format of the request isn't invalid, an **400 - Bad Request** error message will be returned
         
         If the user isn't logged in, an **401 - Unauthorized** error message will be returned
@@ -88,3 +93,16 @@ api:
         If the user isn't the owner of the assessment, an **403 - Forbidden** error message will be returned
         
         If the specified WAIS-IV assessment isn't exist, an **404 - Not Found** error message will be returned
+
+    createPictureReasoning:
+      description: Create a WAIS-IV Picture Reasoning Subtest
+      notes: |
+        ### Normal response
+        A WAIS-IV Picture Reasoning will be create
+
+        ### Expected error responses
+        If the user isn't logged in, an **401 - Unauthorized** error message will be returned
+
+        If the user isn't the owner of the assessment that specified by id, an **403 - Forbidden** error message will be returned
+        
+        If a picture reasoning currently exists for the current WAIS-IV, an **409 - Conflict** error message will be returned

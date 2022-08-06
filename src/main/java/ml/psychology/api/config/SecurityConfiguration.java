@@ -29,6 +29,8 @@ public class SecurityConfiguration {
                 web
                         .ignoring()
                         .antMatchers("/swagger-ui/**")
+                        .antMatchers("/doc.html")
+                        .antMatchers("/favicon.ico")
                         .antMatchers("/v3/api-docs/**")
                         .antMatchers("/actuator/**");
     }

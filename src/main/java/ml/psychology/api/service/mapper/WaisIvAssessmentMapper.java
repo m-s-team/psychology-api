@@ -1,7 +1,7 @@
-package ml.psychology.api.resource.mapper;
+package ml.psychology.api.service.mapper;
 
 import ml.psychology.api.domain.WaisIvAssessment;
-import ml.psychology.api.resource.dto.WaisIvAssessmentDTO;
+import ml.psychology.api.service.dto.WaisIvAssessmentDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
