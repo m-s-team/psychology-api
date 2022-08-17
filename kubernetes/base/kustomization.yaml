@@ -1,0 +1,6 @@
+namespace: mizotakhteh
+
+resources:
+  - api-dep.yaml
+  - api-svc.yaml
+  - api-rt.yaml

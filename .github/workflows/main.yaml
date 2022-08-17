@@ -11,9 +11,31 @@ jobs:
         uses: actions/checkout@v2
       - name: Build and package
         env:
+          GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           gradle jib \
-          -Djib.to.auth.username=${{ github.actor }} \
-          -Djib.to.auth.password=${{ secrets.GITHUB_TOKEN }} \
-          --image=ghcr.io/${{ github.repository }}
+          -Djib.to.auth.username=$GITHUB_ACTOR \
+          -Djib.to.auth.password=$GITHUB_TOKEN \
+          --image=ghcr.io/$GITHUB_REPOSITORY
+
+  arvan-pass-deploy:
+    runs-on: ubuntu-latest
+    needs: [build-and-package]
+    container:
+      image: alpine
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Prepare Arvan CLI
+        env:
+          ARVAN_PAAS_TOKEN: Apikey f38d1a24-f27d-564e-aecc-f89aa0588f58
+        run: |
+          wget https://github.com/arvancloud/cli/releases/download/v1.0.3/arvan_1.0.3_linux_amd64.tar.gz
+          tar -xf arvan_1.0.3_linux_amd64.tar.gz
+          chmod +x ./arvan
+          ./arvan update
+          echo $ARVAN_PAAS_TOKEN | ./arvan login
+      - name: Deploy On Arvan PaaS
+        run: ./arvan paas apply -k kubernetes/overlays/arvan-paas
