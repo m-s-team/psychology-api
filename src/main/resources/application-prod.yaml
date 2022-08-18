@@ -1,0 +1,7 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: ${POSTGRESQL_URL:'jdbc:postgresql://postgresql/api'}
+    username: ${POSTGRESQL_USERNAME:postgres}
+    password: ${POSTGRESQL_PASSWORD:postgres}

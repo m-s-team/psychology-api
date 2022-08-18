@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+        - name: postgresql
+          image: postgres
+          envFrom:
+            - configMapRef:
+                name: postgresql
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresql
+          ports:
+            - name: tcp
+              containerPort: 5432
+          resources:
+            limits:
+              cpu: 0.1
+              memory: 100Mi
+              ephemeral-storage: 100Mi
+            requests:
+              cpu: 0.1
+              memory: 100Mi
+              ephemeral-storage: 100Mi
+      volumes:
+        - name: postgresql
+          persistentVolumeClaim:
+            claimName: postgresql

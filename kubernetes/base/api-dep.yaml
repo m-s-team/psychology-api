@@ -16,14 +16,17 @@ spec:
         - name: api
           image: ghcr.io/m-s-team/psychology-api:latest
           imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: api
           ports:
             - name: http
               containerPort: 8080
           resources:
             limits:
-              cpu: 0.2
+              cpu: 0.1
               memory: 300Mi
-              ephemeral-storage: 300Mi
+              ephemeral-storage: 200Mi
             requests:
               cpu: 0.1
               memory: 100Mi

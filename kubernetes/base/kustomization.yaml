@@ -1,6 +1,11 @@
 namespace: mizotakhteh
 
 resources:
+  - postgresql-pvc.yaml
+  - postgresql-cm.yaml
+  - postgresql-dep.yaml
+  - postgresql-svc.yaml
+  - api-cm.yaml
   - api-dep.yaml
   - api-svc.yaml
   - api-rt.yaml
