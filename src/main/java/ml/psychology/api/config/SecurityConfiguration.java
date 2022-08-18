@@ -13,6 +13,9 @@ import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -53,6 +56,22 @@ public class SecurityConfiguration {
                 .oauth2ResourceServer().jwt();
 
         return http.build();
+    }
+
+    @Bean
+    WebMvcConfigurer webMvcConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins(
+                                "https://api.psychology.ml",
+                                "https://www.psychology.ml",
+                                "http://localhost:4200",
+                                "https://localhost:4200"
+                        );
+            }
+        };
     }
 
     @Bean
