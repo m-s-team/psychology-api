@@ -1,0 +1,86 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000
+      author: hasan
+      changes:
+        - createTable:
+            tableName: barrett_test
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: vr_created_date
+                  type: timestamp
+              - column:
+                  name: vr_completed_date
+                  type: timestamp
+              - column:
+                  name: nr_created_date
+                  type: timestamp
+              - column:
+                  name: nr_completed_date
+                  type: timestamp
+              - column:
+                  name: va_created_date
+                  type: timestamp
+              - column:
+                  name: va_completed_date
+                  type: timestamp
+              - column:
+                  name: sr_created_date
+                  type: timestamp
+              - column:
+                  name: sr_completed_date
+                  type: timestamp
+              - column:
+                  name: spr_created_date
+                  type: timestamp
+              - column:
+                  name: spr_completed_date
+                  type: timestamp
+              - column:
+                  name: td_created_date
+                  type: timestamp
+              - column:
+                  name: td_completed_date
+                  type: timestamp
+              - column:
+                  name: s_created_date
+                  type: timestamp
+              - column:
+                  name: s_completed_date
+                  type: timestamp
+              - column:
+                  name: v_created_date
+                  type: timestamp
+              - column:
+                  name: v_completed_date
+                  type: timestamp
+              - column:
+                  name: fw_created_date
+                  type: timestamp
+              - column:
+                  name: fw_completed_date
+                  type: timestamp
+              - column:
+                  name: user_id
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 000-data
+      author: hasan
+      changes:
+        - loadData:
+            tableName: barrett_test
+            file: /db/fake-data/barrett_test.csv
+            separator: ;

@@ -5,5 +5,5 @@ databaseChangeLog:
       changes:
         - createSequence:
             sequenceName: hibernate_sequence
-            startValue: 10_000_000_100
+            startValue: 1_000_000_100
             incrementBy: 1

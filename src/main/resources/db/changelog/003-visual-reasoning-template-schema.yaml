@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000
+      author: hasan
+      changes:
+        - createTable:
+            tableName: visual_reasoning_template
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: question
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image_url
+                  type: varchar(255)
+              - column:
+                  name: option_image_url1
+                  type: varchar(255)
+              - column:
+                  name: option_image_url2
+                  type: varchar(255)
+              - column:
+                  name: option_image_url3
+                  type: varchar(255)
+              - column:
+                  name: option_image_url4
+                  type: varchar(255)
+              - column:
+                  name: option_image_url5
+                  type: varchar(255)
+              - column:
+                  name: correct_answer
+                  type: tinyint
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 000-data
+      author: hasan
+      changes:
+        - loadData:
+            tableName: visual_reasoning_template
+            file: /db/fake-data/visual_reasoning_template.csv
+            separator: ;
