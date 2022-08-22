@@ -65,10 +65,12 @@ public class SecurityConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins(
-                                "https://api.psychology.ml",
-                                "https://www.psychology.ml",
-                                "http://localhost:4200",
-                                "https://localhost:4200"
+                                "https://api.psychology.ml",      // Documentation (Swagger UI and ReDoc)
+                                "https://www.psychology.ml",      // Web Application
+                                "http://localhost:4200",          // Angular Dev. Env.
+                                "https://localhost:4200",         // Angular Dev. Env. (TLS)
+                                "http://localhost:3000",          // React Dev. Env.
+                                "https://localhost:3000"          // React Dev. Env. (TLS)
                         );
             }
         };
