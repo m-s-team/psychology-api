@@ -1,4 +1,4 @@
-package ml.psychology.api.repository.barret;
+package ml.psychology.api.repository.barrett;
 
 import ml.psychology.api.domain.barrett.BarrettTest;
 import org.springframework.data.jpa.repository.JpaRepository;

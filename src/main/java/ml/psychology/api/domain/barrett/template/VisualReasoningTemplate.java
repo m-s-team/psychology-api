@@ -1,15 +1,14 @@
 package ml.psychology.api.domain.barrett.template;
 
 import lombok.Data;
-import ml.psychology.api.domain.barrett.enumeration.VisualReasoningTemplateType;
+import ml.psychology.api.domain.converter.StringArrayToString;
+import ml.psychology.api.domain.enumeration.VisualReasoningTemplateType;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Entity
@@ -27,17 +26,11 @@ public class VisualReasoningTemplate {
     private String imageUrl;
 
     @NotNull
-    private String optionImageUrl1;
-    @NotNull
-    private String optionImageUrl2;
-    @NotNull
-    private String optionImageUrl3;
-    @NotNull
-    private String optionImageUrl4;
-    private String optionImageUrl5;
+    @Convert(converter = StringArrayToString.class)
+    private List<String> optionImageUrls;
 
     @NotNull
     @Min(1)
     @Max(5)
-    private int correctAnswer;
+    private byte correctAnswer;
 }

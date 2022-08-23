@@ -4,7 +4,7 @@ databaseChangeLog:
       author: hasan
       changes:
         - createTable:
-            tableName: wais_iv_assessment
+            tableName: visual_reasoning_answer
             columns:
               - column:
                   name: id
@@ -13,21 +13,18 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: created_date
-                  type: timestamp
+                  name: test_template_id
+                  type: bigint
                   constraints:
                     nullable: false
               - column:
-                  name: picture_reasoning_status
-                  type: varchar(50)
+                  name: user_answer
+                  type: tinyint
                   constraints:
                     nullable: false
               - column:
-                  name: picture_reasoning_requested_date
-                  type: timestamp
-              - column:
-                  name: user_id
-                  type: varchar(50)
+                  name: assessment_id
+                  type: bigint
                   constraints:
                     nullable: false
   - changeSet:
@@ -35,6 +32,6 @@ databaseChangeLog:
       author: hasan
       changes:
         - loadData:
-            tableName: wais_iv_assessment
-            file: /db/fake-data/wais_iv_assessment.csv
+            tableName: visual_reasoning_answer
+            file: /db/fake-data/visual_reasoning_answer.csv
             separator: ;

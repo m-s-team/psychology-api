@@ -10,9 +10,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import ml.psychology.api.domain.WaisIvAssessment;
+import ml.psychology.api.service.WaisIvAssessmentService;
 import ml.psychology.api.service.dto.WaisIvAssessmentDTO;
 import ml.psychology.api.service.mapper.WaisIvAssessmentMapper;
-import ml.psychology.api.service.WaisIvAssessmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Tag(name = "WAIS-IV Assessment", description = "The Wechsler Adult Intelligence Scale (WAIS) Assessments")
-@RestController
+//@RestController
 @RequestMapping("/waisiv")
 @SecurityRequirement(name = "security_auth")
 public class WaisIvResource {

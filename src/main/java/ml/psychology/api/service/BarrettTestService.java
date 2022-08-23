@@ -1,9 +1,9 @@
 package ml.psychology.api.service;
 
 import ml.psychology.api.domain.barrett.BarrettTest;
-import ml.psychology.api.repository.barret.BarrettTestRepository;
+import ml.psychology.api.repository.barrett.BarrettTestRepository;
 import ml.psychology.api.service.dto.barrett.BarrettTestDTO;
-import ml.psychology.api.service.mapper.barrett.BarrettTestMapper;
+import ml.psychology.api.service.mapper.BarrettTestMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -27,16 +27,14 @@ public class BarrettTestService {
     public BarrettTestDTO createForUser(String userId) {
         BarrettTest barrettTest = new BarrettTest();
         barrettTest.setUserId(userId);
-        BarrettTest r = barrettTestRepository.save(barrettTest);
-        System.out.println(r);
-        return barrettTestMapper.entityToDto(r);
+        return barrettTestMapper.barrettTestToBarrettTestDto(barrettTestRepository.save(barrettTest));
     }
 
     public List<BarrettTestDTO> getByUserId(String userId) {
         return barrettTestRepository
                 .findByUserId(userId)
                 .stream()
-                .map(barrettTestMapper::entityToDto)
+                .map(barrettTestMapper::barrettTestToBarrettTestDto)
                 .collect(Collectors.toList());
     }
 

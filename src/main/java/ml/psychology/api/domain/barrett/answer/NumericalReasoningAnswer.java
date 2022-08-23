@@ -1,18 +1,16 @@
-package ml.psychology.api.domain.barrett.result;
+package ml.psychology.api.domain.barrett.answer;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import ml.psychology.api.domain.barrett.BarrettTest;
-import ml.psychology.api.domain.barrett.template.VisualReasoningTemplate;
+import ml.psychology.api.domain.barrett.template.NumericalReasoningTemplate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-public class VisualReasoningResult {
+public class NumericalReasoningAnswer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,12 +18,10 @@ public class VisualReasoningResult {
 
     @NotNull
     @ManyToOne
-    private VisualReasoningTemplate testTemplate;
+    private NumericalReasoningTemplate testTemplate;
 
     @NotNull
-    @Min(0)
-    @Max(5)
-    private int userAnswer = 0;
+    private byte userAnswer = -1;
 
     @NotNull
     @ManyToOne

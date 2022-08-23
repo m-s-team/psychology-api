@@ -1,13 +1,12 @@
 package ml.psychology.api.service.dto.barrett;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import ml.psychology.api.service.dto.barrett.subtest.VisualReasoningSubtestDTO;
 
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
-@Schema
+@Schema(name = "BarrettTest")
 public record BarrettTestDTO(
 
         @Id
@@ -23,7 +22,7 @@ public record BarrettTestDTO(
         VisualReasoningSubtestDTO visualReasoningSubtest,
 
         @NotNull
-        @Schema(description = "The owner of this assessment", example = "google-oauth2|120408978933119965034")
-        String userId
+        @Schema(description = "numerical reasoning subtest")
+        NumericalReasoningSubtestDTO numericalReasoningSubtest
 ) {
 }

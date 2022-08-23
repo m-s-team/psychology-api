@@ -4,4 +4,8 @@ databaseChangeLog:
   - include:
       file: /db/changelog/001-barrett-test-schema.yaml
   - include:
-      file: /db/changelog/003-visual-reasoning-template-schema.yaml
+      file: /db/changelog/002-visual-reasoning-template-schema.yaml
+  - include:
+      file: /db/changelog/003-visual-reasoning-answer-schema.yaml
+  - include:
+      file: /db/changelog/004-numerical-reasoning-template-schema.yaml

@@ -1,4 +1,4 @@
-package ml.psychology.api.domain.barrett.enumeration;
+package ml.psychology.api.domain.enumeration;
 
 public enum VisualReasoningTemplateType {
     Odd, // decide which of the objects you are shown is the ‘odd one out’

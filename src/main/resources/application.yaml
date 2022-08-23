@@ -16,13 +16,13 @@ springdoc:
   oAuthFlow:
     authorizationUrl: https://dev-41tfcxyn.us.auth0.com/authorize
     tokenUrl: https://dev-41tfcxyn.us.auth0.com/oauth/token
-  show-actuator: false
+  show-actuator: true
 
 ---
 api:
 
   static:
-    baseUrl: https://static.psychology.ml
+    baseUrl: https://static.psychology.ml/
 
   responseCodes:
     ok.description: OK
