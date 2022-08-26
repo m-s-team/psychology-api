@@ -4,7 +4,7 @@ databaseChangeLog:
       author: hasan
       changes:
         - createTable:
-            tableName: numerical_reasoning_template
+            tableName: verbal_analysis_sub_template
             columns:
               - column:
                   name: id
@@ -13,13 +13,21 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: context_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
                   name: question
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
+                  name: options
+                  type: varchar(255)
+              - column:
                   name: correct_answer
-                  type: int
+                  type: tinyint
                   constraints:
                     nullable: false
   - changeSet:
@@ -27,6 +35,6 @@ databaseChangeLog:
       author: hasan
       changes:
         - loadData:
-            tableName: numerical_reasoning_template
-            file: /db/fake-data/numerical_reasoning_template.csv
+            tableName: verbal_analysis_sub_template
+            file: /db/fake-data/verbal_analysis_sub_template.csv
             separator: ;

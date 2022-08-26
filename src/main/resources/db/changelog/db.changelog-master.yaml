@@ -9,3 +9,9 @@ databaseChangeLog:
       file: /db/changelog/003-visual-reasoning-answer-schema.yaml
   - include:
       file: /db/changelog/004-numerical-reasoning-template-schema.yaml
+  - include:
+      file: /db/changelog/005-numerical-reasoning-answer-schema.yaml
+  - include:
+      file: /db/changelog/006-verbal-analysis-template-schema.yaml
+  - include:
+      file: /db/changelog/007-verbal-analysis-sub-template-schema.yaml
