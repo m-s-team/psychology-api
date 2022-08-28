@@ -6,7 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import ml.psychology.api.domain.barrett.answer.NumericalReasoningAnswer;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +20,7 @@ import java.util.Set;
 @Embeddable
 public class NumericalReasoningSubtest extends Subtest {
 
-    @OneToMany(mappedBy = "assessment")
+    @OneToMany(mappedBy = "assessment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

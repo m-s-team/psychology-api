@@ -1,6 +1,9 @@
 package ml.psychology.api.domain.barrett.template;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ml.psychology.api.domain.barrett.converter.StringArrayToString;
 
 import javax.persistence.*;
@@ -18,6 +21,9 @@ public class VerbalAnalysisSubTemplate {
 
     @NotNull
     @ManyToOne
+    @JsonIgnoreProperties
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private VerbalAnalysisTemplate context;
 
     @NotNull

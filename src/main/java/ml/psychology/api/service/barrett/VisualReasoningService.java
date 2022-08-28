@@ -108,5 +108,4 @@ public class VisualReasoningService {
                 answerRepository.saveAll(visualReasoningAnswers)
         );
     }
-
 }

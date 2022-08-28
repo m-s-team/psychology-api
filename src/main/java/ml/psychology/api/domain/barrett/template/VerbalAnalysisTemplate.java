@@ -16,6 +16,6 @@ public class VerbalAnalysisTemplate {
     @NotNull
     private String context;
 
-    @OneToMany(mappedBy = "context")
-    private Set<VerbalAnalysisSubTemplate> questions;
+    @OneToMany(mappedBy = "context", fetch = FetchType.EAGER)
+    private Set<VerbalAnalysisSubTemplate> subTemplates;
 }

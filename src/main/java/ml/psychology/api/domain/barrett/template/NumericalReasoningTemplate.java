@@ -1,6 +1,7 @@
 package ml.psychology.api.domain.barrett.template;
 
 import lombok.Data;
+import ml.psychology.api.config.Constants;
 import ml.psychology.api.domain.barrett.converter.NumericalReasoningQuestionToString;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class NumericalReasoningTemplate {
 
     @NotNull
     @Convert(converter = NumericalReasoningQuestionToString.class)
-    @Pattern(regexp = "^([0-9]*|-|\\?)")
+    @Pattern(regexp = Constants.NUMERICAL_REASONING_QUESTION)
     private List<List<String>> question;
 
     @NotNull

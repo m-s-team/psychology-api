@@ -47,7 +47,7 @@ public class BarrettTest {
             @AttributeOverride(name = "createdDate", column = @Column (name = "vaCreatedDate")),
             @AttributeOverride(name = "completedDate", column = @Column (name = "vaCompletedDate"))
     })
-    private VerbalAnalysisSubtest verbalAnalysisSubTest = new VerbalAnalysisSubtest();
+    private VerbalAnalysisSubtest verbalAnalysisSubtest = new VerbalAnalysisSubtest();
 
     @Embedded
     @AttributeOverrides({

@@ -15,3 +15,5 @@ databaseChangeLog:
       file: /db/changelog/006-verbal-analysis-template-schema.yaml
   - include:
       file: /db/changelog/007-verbal-analysis-sub-template-schema.yaml
+  - include:
+      file: /db/changelog/008-verbal-analysis-answer-schema.yaml
