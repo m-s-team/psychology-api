@@ -39,7 +39,6 @@ public interface VisualReasoningMapper {
         while (answer.hasNext() && test.hasNext()) {
             test.next().setUserAnswer(answer.next().getUserAnswer());
         }
-
     }
 
     default void mergeToAnswers(

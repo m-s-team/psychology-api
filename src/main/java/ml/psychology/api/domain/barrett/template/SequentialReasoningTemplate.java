@@ -1,6 +1,7 @@
 package ml.psychology.api.domain.barrett.template;
 
 import lombok.Data;
+import ml.psychology.api.domain.barrett.converter.IntegerArrayToString;
 import ml.psychology.api.domain.barrett.converter.StringArrayToString;
 
 import javax.persistence.*;
@@ -21,4 +22,8 @@ public class SequentialReasoningTemplate {
     @NotNull
     @Convert(converter = StringArrayToString.class)
     private List<String> optionImageUrls;
+
+    @NotNull
+    @Convert(converter = IntegerArrayToString.class)
+    private List<Integer> correctAnswers;
 }
