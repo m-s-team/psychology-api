@@ -13,7 +13,7 @@ public record SequentialReasoningDTO(
         @Schema(description = "Completed time of this sequential reasoning subtest", example = "2022-08-03T02:45:12.10865477Z")
         Instant completedDate,
         @NotNull
-        @Schema(description = "Required time for this subtest in minutes", example = "10")
+        @Schema(description = "Required time for this subtest in minutes", example = "15")
         int requiredTime,
         @Schema(description = "List of the Questions")
         Set<SequentialReasoningTestDTO> tests

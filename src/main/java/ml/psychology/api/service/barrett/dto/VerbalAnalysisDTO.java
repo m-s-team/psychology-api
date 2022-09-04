@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Set;
 
-@Schema(name = "Verbal Analysis")
+@Schema(name = "VerbalAnalysis")
 public record VerbalAnalysisDTO (
 
         @Schema(description = "Creation time of this verbal analysis subtest", example = "2022-08-03T02:32:30.100603994Z")

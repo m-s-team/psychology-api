@@ -2,16 +2,21 @@ package ml.psychology.api.service.barrett;
 
 import ml.psychology.api.config.Constants;
 import ml.psychology.api.domain.barrett.BarrettTest;
+import ml.psychology.api.domain.barrett.answer.SequentialReasoningAnswer;
 import ml.psychology.api.domain.barrett.subtest.SequentialReasoningSubtest;
 import ml.psychology.api.domain.barrett.template.SequentialReasoningTemplate;
 import ml.psychology.api.repository.barrett.BarrettTestRepository;
 import ml.psychology.api.repository.barrett.SequentialReasoningAnswerRepository;
 import ml.psychology.api.repository.barrett.SequentialReasoningTemplateRepository;
+import ml.psychology.api.service.barrett.dto.SequentialAnswersDTO;
 import ml.psychology.api.service.barrett.dto.SequentialReasoningDTO;
 import ml.psychology.api.service.barrett.mapper.SequentialReasoningMapper;
 import org.springframework.stereotype.Service;
 
+import javax.naming.TimeLimitExceededException;
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -49,9 +54,55 @@ public class SequentialReasoningService {
 
         return sequentialReasoningMapper.mergeToDto(
                 subtest,
-                Constants.VERBAL_ANALYSIS_REQUIRED_MINUTE,
+                Constants.SEQUENTIAL_REASONING_REQUIRED_MINUTE,
                 templateRepository.findAll(),
                 answerRepository.saveAll(sequentialReasoningMapper.templatesToAnswers(templates, assessment))
+        );
+    }
+
+    public SequentialReasoningDTO getById(Long assessmentId) {
+        BarrettTest assessment = barrettTestRepository.findById(assessmentId).orElseThrow();
+
+        // throw EntityExistsException if subtest not exists
+        if (Objects.isNull(assessment.getSequentialReasoningSubtest().getCreatedDate()))
+            throw new EntityNotFoundException();
+
+        return sequentialReasoningMapper.mergeToDto(
+                assessment.getSequentialReasoningSubtest(),
+                Constants.SEQUENTIAL_REASONING_REQUIRED_MINUTE,
+                templateRepository.findAll(),
+                answerRepository.findByAssessment(assessment)
+        );
+    }
+
+    public SequentialReasoningDTO updateUserAnswers(Long assessmentId, SequentialAnswersDTO answers) throws TimeLimitExceededException {
+        BarrettTest assessment = barrettTestRepository.findById(assessmentId).orElseThrow();
+
+        // throw EntityExistsException if subtest not exists
+        if (Objects.isNull(assessment.getSequentialReasoningSubtest().getCreatedDate()))
+            throw new EntityNotFoundException();
+
+        Instant now = Instant.now();
+        Instant createdDate = assessment.getSequentialReasoningSubtest().getCreatedDate();
+        int requiredTime = Constants.SEQUENTIAL_REASONING_REQUIRED_MINUTE;
+
+        if (Duration.between(createdDate, now).toMinutes() > requiredTime)
+            throw new TimeLimitExceededException();
+
+        SequentialReasoningSubtest subtest = assessment.getSequentialReasoningSubtest();
+        subtest.setCompletedDate(now);
+
+        List<SequentialReasoningAnswer> sequentialReasoningAnswers = answerRepository.findByAssessment(assessment);
+        sequentialReasoningMapper.mergeToAnswers(
+                answers.getUserAnswers(),
+                sequentialReasoningAnswers
+        );
+
+        return sequentialReasoningMapper.mergeToDto(
+                barrettTestRepository.save(assessment).getSequentialReasoningSubtest(),
+                Constants.VISUAL_REASONING_REQUIRED_MINUTE,
+                templateRepository.findAll(),
+                answerRepository.saveAll(sequentialReasoningAnswers)
         );
     }
 }
