@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000
+      author: hasan
+      changes:
+        - createTable:
+            tableName: spatial_recognition_template
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: image_url
+                  type: varchar(255)
+              - column:
+                  name: option_image_urls
+#                 TODO: remove base address
+                  type: varchar
+              - column:
+                  name: correct_answers
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 000-data
+      author: hasan
+      changes:
+        - loadData:
+            tableName: spatial_recognition_template
+            file: /db/fake-data/spatial_recognition_template.csv
+            separator: ;
