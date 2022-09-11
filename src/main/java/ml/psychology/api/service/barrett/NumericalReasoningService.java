@@ -10,7 +10,6 @@ import ml.psychology.api.repository.barrett.NumericalReasoningAnswerRepository;
 import ml.psychology.api.repository.barrett.NumericalReasoningTemplateRepository;
 import ml.psychology.api.service.barrett.dto.NumericalAnswersDTO;
 import ml.psychology.api.service.barrett.dto.NumericalReasoningDTO;
-import ml.psychology.api.service.barrett.mapper.BarrettTestMapper;
 import ml.psychology.api.service.barrett.mapper.NumericalReasoningMapper;
 import org.springframework.stereotype.Service;
 
@@ -24,16 +23,14 @@ import java.util.Objects;
 
 @Service
 public class NumericalReasoningService {
-    private BarrettTestRepository barrettTestRepository;
-    private NumericalReasoningTemplateRepository templateRepository;
-    private BarrettTestMapper barrettTestMapper;
-    private NumericalReasoningMapper numericalReasoningMapper;
-    private NumericalReasoningAnswerRepository answerRepository;
+    private final BarrettTestRepository barrettTestRepository;
+    private final NumericalReasoningTemplateRepository templateRepository;
+    private final NumericalReasoningMapper numericalReasoningMapper;
+    private final NumericalReasoningAnswerRepository answerRepository;
 
-    public NumericalReasoningService(BarrettTestRepository barrettTestRepository, NumericalReasoningTemplateRepository templateRepository, BarrettTestMapper barrettTestMapper, NumericalReasoningMapper numericalReasoningMapper, NumericalReasoningAnswerRepository answerRepository) {
+    public NumericalReasoningService(BarrettTestRepository barrettTestRepository, NumericalReasoningTemplateRepository templateRepository, NumericalReasoningMapper numericalReasoningMapper, NumericalReasoningAnswerRepository answerRepository) {
         this.barrettTestRepository = barrettTestRepository;
         this.templateRepository = templateRepository;
-        this.barrettTestMapper = barrettTestMapper;
         this.numericalReasoningMapper = numericalReasoningMapper;
         this.answerRepository = answerRepository;
     }
@@ -57,7 +54,7 @@ public class NumericalReasoningService {
         return numericalReasoningMapper.mergeToDto(
                 subtest,
                 Constants.NUMERICAL_REASONING_REQUIRED_MINUTE,
-                templateRepository.findAll(),
+                templates,
                 answerRepository.saveAll(numericalReasoningMapper.templatesToAnswers(templates, assessment))
         );
     }

@@ -55,7 +55,7 @@ public class SequentialReasoningService {
         return sequentialReasoningMapper.mergeToDto(
                 subtest,
                 Constants.SEQUENTIAL_REASONING_REQUIRED_MINUTE,
-                templateRepository.findAll(),
+                templates,
                 answerRepository.saveAll(sequentialReasoningMapper.templatesToAnswers(templates, assessment))
         );
     }

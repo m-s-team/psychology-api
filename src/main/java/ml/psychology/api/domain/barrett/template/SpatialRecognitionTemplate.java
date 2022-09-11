@@ -1,7 +1,7 @@
 package ml.psychology.api.domain.barrett.template;
 
 import lombok.Data;
-import ml.psychology.api.domain.barrett.converter.IntegerArrayToString;
+import ml.psychology.api.domain.barrett.converter.SpatialRecognitionAnswerTypeArrayToString;
 import ml.psychology.api.domain.barrett.converter.StringArrayToString;
 import ml.psychology.api.domain.barrett.enumeration.SpatialRecognitionAnswerType;
 
@@ -26,6 +26,6 @@ public class SpatialRecognitionTemplate {
 
 
     @NotNull
-    @Convert(converter = IntegerArrayToString.class)
-    private List<SpatialRecognitionAnswerType> userAnswers;
+    @Convert(converter = SpatialRecognitionAnswerTypeArrayToString.class)
+    private List<@NotNull SpatialRecognitionAnswerType> correctAnswers;
 }

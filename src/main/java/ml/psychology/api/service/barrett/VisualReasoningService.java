@@ -58,7 +58,7 @@ public class VisualReasoningService {
         return visualReasoningMapper.mergeToDto(
                 subtest,
                 Constants.VISUAL_REASONING_REQUIRED_MINUTE,
-                templateRepository.findAll(),
+                templates,
                 answerRepository.saveAll(visualReasoningMapper.templatesToAnswers(templates, assessment))
         );
     }

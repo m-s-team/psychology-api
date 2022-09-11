@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000
+      author: hasan
+      changes:
+        - createTable:
+            tableName: spatial_recognition_answer
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: test_template_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_answers
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: assessment_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 000-data
+      author: hasan
+      changes:
+        - loadData:
+            tableName: spatial_recognition_answer
+            file: /db/fake-data/spatial_recognition_answer.csv
+            separator: ;

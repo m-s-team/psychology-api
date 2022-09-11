@@ -23,3 +23,5 @@ databaseChangeLog:
       file: /db/changelog/010-sequential-reasoning-answer-schema.yaml
   - include:
       file: /db/changelog/011-spatial-recognition-template-schema.yaml
+  - include:
+      file: /db/changelog/012-spatial-recognition-answer-schema.yaml
