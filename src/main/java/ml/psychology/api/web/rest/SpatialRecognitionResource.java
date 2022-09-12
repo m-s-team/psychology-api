@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -77,6 +78,42 @@ public class SpatialRecognitionResource {
                     .body(spatialRecognitionService.create(id));
         } catch (EntityExistsException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
+    }
+
+    @Operation(
+            summary = "Returns the spatial recognition subtest of James Barrett test",
+            description = "A spatial recognition subtest of specified James Barrett test will be returned"
+    )
+    @Parameters(
+            @Parameter(name = "id", description = "James Barrett test ID", example = "1000000001")
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "The user isn't logged in",
+                    content = {@Content(schema = @Schema(hidden = true))}
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Access is permanently forbidden, the user isn't the owner of this James Barrett test that specified by the id}",
+                    content = {@Content(schema = @Schema(hidden = true))}
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "The James Barrett test that specified by id or spatial recognition subtest not found",
+                    content = {@Content(schema = @Schema(hidden = true))}
+            )
+    })
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(produces = "application/json")
+    public SpatialRecognitionDTO getSpatialRecognition(@PathVariable Long id) {
+        log.debug("REST request to get the spatial recognition subtest");
+        try {
+            return spatialRecognitionService.getById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 }

@@ -8,10 +8,12 @@ import ml.psychology.api.repository.barrett.BarrettTestRepository;
 import ml.psychology.api.repository.barrett.SpatialRecognitionAnswerRepository;
 import ml.psychology.api.repository.barrett.SpatialRecognitionTemplateRepository;
 import ml.psychology.api.service.barrett.dto.SpatialRecognitionDTO;
+import ml.psychology.api.service.barrett.dto.SpatialRecognitionDTO;
 import ml.psychology.api.service.barrett.mapper.SpatialRecognitionMapper;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -51,6 +53,21 @@ public class SpatialRecognitionService {
                 Constants.VISUAL_REASONING_REQUIRED_MINUTE,
                 templates,
                 answerRepository.saveAll(spatialRecognitionMapper.templatesToAnswers(templates, assessment))
+        );
+    }
+
+    public SpatialRecognitionDTO getById(Long assessmentId) {
+        BarrettTest assessment = barrettTestRepository.findById(assessmentId).orElseThrow();
+
+        // throw EntityExistsException if subtest not exists
+        if (Objects.isNull(assessment.getSpatialRecognitionSubtest().getCreatedDate()))
+            throw new EntityNotFoundException();
+
+        return spatialRecognitionMapper.mergeToDto(
+                assessment.getSpatialRecognitionSubtest(),
+                Constants.VISUAL_REASONING_REQUIRED_MINUTE,
+                templateRepository.findAll(),
+                answerRepository.findByAssessment(assessment)
         );
     }
 }
