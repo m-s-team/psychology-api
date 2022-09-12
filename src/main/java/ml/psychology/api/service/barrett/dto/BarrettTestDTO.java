@@ -23,6 +23,18 @@ public record BarrettTestDTO(
 
         @NotNull
         @Schema(description = "numerical reasoning subtest")
-        NumericalReasoningSubtestDTO numericalReasoningSubtest
+        NumericalReasoningSubtestDTO numericalReasoningSubtest,
+
+        @NotNull
+        @Schema(description = "verbal analysis subtest")
+        VerbalAnalysisSubtestDTO verbalAnalysisSubtest,
+
+        @NotNull
+        @Schema(description = "sequential reasoning subtest")
+        SequentialReasoningSubtestDTO sequentialReasoningSubtest,
+
+        @NotNull
+        @Schema(description = "spatial recognition subtest")
+        SpatialRecognitionSubtestDTO spatialRecognitionSubtest
 ) {
 }
