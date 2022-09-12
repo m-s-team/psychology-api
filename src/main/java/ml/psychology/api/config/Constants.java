@@ -10,4 +10,5 @@ public final class Constants {
     public static final int NUMERICAL_REASONING_REQUIRED_MINUTE = 8;
     public static final int VERBAL_ANALYSIS_REQUIRED_MINUTE = 10;
     public static final int SEQUENTIAL_REASONING_REQUIRED_MINUTE = 15;
+    public static final int SPATIAL_RECOGNITION_REQUIRED_MINUTE = 10;
 }

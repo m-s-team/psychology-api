@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import ml.psychology.api.service.barrett.SpatialRecognitionService;
+import ml.psychology.api.service.barrett.dto.SpatialAnswersDTO;
 import ml.psychology.api.service.barrett.dto.SpatialRecognitionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +20,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.naming.TimeLimitExceededException;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -47,6 +50,7 @@ public class SpatialRecognitionResource {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "spatial recognition subtest created successfully"),
+            // TODO: Err 400, Bad request
             @ApiResponse(
                     responseCode = "401",
                     description = "The user isn't logged in",
@@ -112,6 +116,51 @@ public class SpatialRecognitionResource {
         log.debug("REST request to get the spatial recognition subtest");
         try {
             return spatialRecognitionService.getById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Operation(
+            summary = "Updates spatial recognition user's answers and then Returns the spatial recognition subtest of James Barrett test",
+            description = """
+                    A spatial recognition subtest of specified James Barrett test will be returned after updating the answers
+                    > Note: The time to send the user's answers must be before the test timeout"""
+    )
+    @Parameters(
+            @Parameter(name = "id", description = "James Barrett test ID", example = "1000000001")
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "The user isn't logged in",
+                    content = {@Content(schema = @Schema(hidden = true))}
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Access is permanently forbidden, the user isn't the owner of this James Barrett test that specified by the id",
+                    content = {@Content(schema = @Schema(hidden = true))}
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "The James Barrett test that specified by id or spatial recognition subtest not found",
+                    content = {@Content(schema = @Schema(hidden = true))}
+            ),
+            @ApiResponse(
+                    // TODO: Find the right error
+                    responseCode = "423",
+                    description = "It's not allowed to change the answers after the test timeout",
+                    content = {@Content(schema = @Schema(hidden = true))}
+            )
+    })
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping(produces = "application/json")
+    public SpatialRecognitionDTO updateSpatialRecognition(@PathVariable Long id, @Valid @RequestBody SpatialAnswersDTO answers) {
+        try {
+            return spatialRecognitionService.updateUserAnswers(id, answers);
+        } catch (TimeLimitExceededException e) {
+            throw new ResponseStatusException(HttpStatus.LOCKED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
