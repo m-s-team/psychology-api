@@ -19,22 +19,26 @@ public record BarrettTestDTO(
 
         @NotNull
         @Schema(description = "Visual reasoning subtest")
-        VisualReasoningSubtestDTO visualReasoningSubtest,
+        SubtestDTO visualReasoningSubtest,
 
         @NotNull
         @Schema(description = "numerical reasoning subtest")
-        NumericalReasoningSubtestDTO numericalReasoningSubtest,
+        SubtestDTO numericalReasoningSubtest,
 
         @NotNull
         @Schema(description = "verbal analysis subtest")
-        VerbalAnalysisSubtestDTO verbalAnalysisSubtest,
+        SubtestDTO verbalAnalysisSubtest,
 
         @NotNull
         @Schema(description = "sequential reasoning subtest")
-        SequentialReasoningSubtestDTO sequentialReasoningSubtest,
+        SubtestDTO sequentialReasoningSubtest,
 
         @NotNull
         @Schema(description = "spatial recognition subtest")
-        SpatialRecognitionSubtestDTO spatialRecognitionSubtest
+        SubtestDTO spatialRecognitionSubtest,
+
+        @NotNull
+        @Schema(description = "3D subtest")
+        SubtestDTO threeDSubtest
 ) {
 }
