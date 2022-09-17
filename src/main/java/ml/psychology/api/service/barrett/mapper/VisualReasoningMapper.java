@@ -6,6 +6,7 @@ import ml.psychology.api.domain.barrett.subtest.VisualReasoningSubtest;
 import ml.psychology.api.domain.barrett.template.VisualReasoningTemplate;
 import ml.psychology.api.service.barrett.dto.VisualReasoningDTO;
 import ml.psychology.api.service.barrett.dto.VisualReasoningTestDTO;
+import ml.psychology.api.service.barrett.dto.answer.TestAnswerDTO;
 import org.mapstruct.*;
 
 import java.util.Iterator;
@@ -13,8 +14,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface VisualReasoningMapper {
-
-    VisualReasoningTestDTO templateToTestDto(VisualReasoningTemplate template);
 
     List<VisualReasoningAnswer> templatesToAnswers(List<VisualReasoningTemplate> templates, @Context BarrettTest assessment);
 
@@ -27,6 +26,9 @@ public interface VisualReasoningMapper {
         answer.setAssessment(assessment);
     }
 
+    @Mapping(target = "id", ignore = true)
+    VisualReasoningTestDTO templateToTestDto(VisualReasoningTemplate template);
+
     VisualReasoningDTO mergeToDto(VisualReasoningSubtest subtest,
                                   int requiredTime,
                                   List<VisualReasoningTemplate> tests,
@@ -34,21 +36,21 @@ public interface VisualReasoningMapper {
 
     @AfterMapping
     default void mergeToDto(List<VisualReasoningAnswer> answers, @MappingTarget VisualReasoningDTO vrDTO) {
+        Long id = 0L;
         Iterator<VisualReasoningTestDTO> test = vrDTO.tests().iterator();
+        while (test.hasNext()) test.next().setId(id++);
+
+        test = vrDTO.tests().iterator();
         Iterator<VisualReasoningAnswer> answer = answers.iterator();
-        while (answer.hasNext() && test.hasNext()) {
+        while (test.hasNext()) {
             test.next().setUserAnswer(answer.next().getUserAnswer());
         }
     }
 
-    default void mergeToAnswers(
-            List<Integer> userAnswers,
-            @MappingTarget List<VisualReasoningAnswer> answers) {
-        Iterator<Integer> dto = userAnswers.iterator();
-        Iterator<VisualReasoningAnswer> answer = answers.iterator();
-        while (answer.hasNext() && dto.hasNext()) {
-            answer.next().setUserAnswer(dto.next().byteValue());
-        }
+    default void mergeToAnswers(List<TestAnswerDTO> userAnswers, @MappingTarget List<VisualReasoningAnswer> answers) {
+
+        for (TestAnswerDTO userAnswer: userAnswers)
+            answers.get(userAnswer.getId()).setUserAnswer((byte) userAnswer.getUserAnswer());
     }
 
 }

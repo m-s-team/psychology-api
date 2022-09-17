@@ -1,27 +1,29 @@
 package ml.psychology.api.domain.barrett.template;
 
 import lombok.Data;
-import ml.psychology.api.config.Constants;
+import ml.psychology.api.domain.barrett.converter.IntegerArrayToString;
 import ml.psychology.api.domain.barrett.converter.TwoDimensionalStringArrayToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Data
 @Entity
-public class NumericalReasoningTemplate {
+public class ThreeDTemplate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
-    @Convert(converter = TwoDimensionalStringArrayToString.class)
-    @Pattern(regexp = Constants.NUMERICAL_REASONING_QUESTION)
-    private List<List<String>> question;
+    private String imageUrl;
 
     @NotNull
-    private byte correctAnswer;
+    @Convert(converter = TwoDimensionalStringArrayToString.class)
+    private List<List<String>> optionImageUrls;
+
+    @NotNull
+    @Convert(converter = IntegerArrayToString.class)
+    private List<Integer> correctAnswer;
 }

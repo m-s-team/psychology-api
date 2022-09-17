@@ -8,8 +8,8 @@ import ml.psychology.api.domain.barrett.template.VisualReasoningTemplate;
 import ml.psychology.api.repository.barrett.BarrettTestRepository;
 import ml.psychology.api.repository.barrett.VisualReasoningAnswerRepository;
 import ml.psychology.api.repository.barrett.VisualReasoningTemplateRepository;
-import ml.psychology.api.service.barrett.dto.TestAnswersDTO;
 import ml.psychology.api.service.barrett.dto.VisualReasoningDTO;
+import ml.psychology.api.service.barrett.dto.answer.TestAnswerDTO;
 import ml.psychology.api.service.barrett.mapper.VisualReasoningMapper;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +78,7 @@ public class VisualReasoningService {
         );
     }
 
-    public VisualReasoningDTO updateUserAnswers(Long assessmentId, TestAnswersDTO answers) throws TimeLimitExceededException {
+    public VisualReasoningDTO updateUserAnswers(Long assessmentId, List<TestAnswerDTO> answers) throws TimeLimitExceededException {
         BarrettTest assessment = barrettTestRepository.findById(assessmentId).orElseThrow();
 
         // throw EntityExistsException if subtest not exists
@@ -96,10 +96,8 @@ public class VisualReasoningService {
         subtest.setCompletedDate(now);
 
         List<VisualReasoningAnswer> visualReasoningAnswers = answerRepository.findByAssessment(assessment);
-        visualReasoningMapper.mergeToAnswers(
-                answers.getUserAnswers(),
-                visualReasoningAnswers
-        );
+
+        visualReasoningMapper.mergeToAnswers(answers, visualReasoningAnswers);
 
         return visualReasoningMapper.mergeToDto(
                 barrettTestRepository.save(assessment).getVisualReasoningSubtest(),

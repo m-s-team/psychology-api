@@ -10,8 +10,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import ml.psychology.api.service.barrett.VisualReasoningService;
-import ml.psychology.api.service.barrett.dto.TestAnswersDTO;
 import ml.psychology.api.service.barrett.dto.VisualReasoningDTO;
+import ml.psychology.api.service.barrett.dto.answer.TestAnswerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -26,6 +26,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @Tag(name = "Visual Reasoning Subtest", description = "A subtest of James Barrett test")
 @RestController
@@ -155,13 +156,15 @@ public class VisualReasoningResource {
     })
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(produces = "application/json")
-    public VisualReasoningDTO updateVisualReasoning(@PathVariable Long id, @Valid @RequestBody TestAnswersDTO answers) {
+    public VisualReasoningDTO updateVisualReasoning(@PathVariable Long id, @RequestBody @Valid List<TestAnswerDTO> answers) {
         try {
             return visualReasoningService.updateUserAnswers(id, answers);
         } catch (TimeLimitExceededException e) {
             throw new ResponseStatusException(HttpStatus.LOCKED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } catch (IndexOutOfBoundsException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class NumericalReasoningQuestionToString implements AttributeConverter<List<List<String>>, String> {
+public class TwoDimensionalStringArrayToString implements AttributeConverter<List<List<String>>, String> {
     @Override
     public String convertToDatabaseColumn(List<List<String>> attribute) {
         return StringUtils.join(
