@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
-@Schema(name = "NumericalAnswers")
+@Schema(name = "SequentialAnswers")
 public class SequentialAnswersDTO {
         @Schema(
                 description = "The answers of the user to the numerical questions",
