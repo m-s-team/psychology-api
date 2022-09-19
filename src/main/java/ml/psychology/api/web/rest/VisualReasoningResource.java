@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,6 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@Validated
 @Tag(name = "Visual Reasoning Subtest", description = "A subtest of James Barrett test")
 @RestController
 @RequestMapping("/barrett/{id}/visual-reasoning")
@@ -132,11 +134,6 @@ public class VisualReasoningResource {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Bad Request",
-                    content = {@Content(schema = @Schema(hidden = true))}
-            ),
             @ApiResponse(
                     responseCode = "401",
                     description = "The user isn't logged in",
