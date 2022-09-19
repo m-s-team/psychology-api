@@ -133,6 +133,11 @@ public class VisualReasoningResource {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request",
+                    content = {@Content(schema = @Schema(hidden = true))}
+            ),
+            @ApiResponse(
                     responseCode = "401",
                     description = "The user isn't logged in",
                     content = {@Content(schema = @Schema(hidden = true))}
