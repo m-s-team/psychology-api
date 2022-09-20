@@ -28,7 +28,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Prepare Arvan CLI
+      - name: Prepare the Arvan CLI
+        timeout-minutes: 2
         env:
           ARVAN_PAAS_TOKEN: Apikey f38d1a24-f27d-564e-aecc-f89aa0588f58
         run: |
