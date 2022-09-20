@@ -8,6 +8,7 @@ import ml.psychology.api.domain.barrett.template.VerbalAnalysisTemplate;
 import ml.psychology.api.service.barrett.dto.VerbalAnalysisDTO;
 import ml.psychology.api.service.barrett.dto.VerbalAnalysisTestDTO;
 import ml.psychology.api.service.barrett.dto.VerbalAnalysisTestGroupDTO;
+import ml.psychology.api.service.barrett.dto.answer.VerbalAnswerDTO;
 import org.mapstruct.*;
 
 import java.util.Iterator;
@@ -27,6 +28,9 @@ public interface VerbalAnalysisMapper {
         answer.setAssessment(assessment);
     }
 
+    @Mapping(target = "id", ignore = true)
+    VerbalAnalysisTestDTO subTemplateToTestDTO(VerbalAnalysisSubTemplate subTemplate);
+
     @Mapping(source = "template.subTemplates", target = "tests")
     VerbalAnalysisTestGroupDTO templateToTestGroupDTO(VerbalAnalysisTemplate template);
 
@@ -37,22 +41,17 @@ public interface VerbalAnalysisMapper {
 
     @AfterMapping
     default void mergeToDto(List<VerbalAnalysisAnswer> answers, @MappingTarget VerbalAnalysisDTO vrDTO) {
-        Iterator<VerbalAnalysisTestGroupDTO> testGroup = vrDTO.testGroups().iterator();
+        int id = 0;
         Iterator<VerbalAnalysisAnswer> answer = answers.iterator();
-        while (testGroup.hasNext()) {
-            Iterator<VerbalAnalysisTestDTO> test = testGroup.next().tests().iterator();
-            while (test.hasNext() && answer.hasNext())
-                test.next().setUserAnswer(answer.next().getUserAnswer());
-        }
+        for (VerbalAnalysisTestGroupDTO group: vrDTO.testGroups())
+            for (VerbalAnalysisTestDTO test: group.tests()) {
+                test.setId(id++);
+                test.setUserAnswer(answer.next().getUserAnswer());
+            }
     }
 
-    default void mergeToAnswers(
-            List<Integer> userAnswers,
-            @MappingTarget List<VerbalAnalysisAnswer> answers) {
-        Iterator<Integer> dto = userAnswers.iterator();
-        Iterator<VerbalAnalysisAnswer> answer = answers.iterator();
-        while (answer.hasNext() && dto.hasNext()) {
-            answer.next().setUserAnswer(dto.next().byteValue());
-        }
+    default void mergeToAnswers(List<VerbalAnswerDTO> userAnswers, @MappingTarget List<VerbalAnalysisAnswer> answers) {
+        for (VerbalAnswerDTO userAnswer: userAnswers)
+            answers.get(userAnswer.getId()).setUserAnswer((byte) userAnswer.getUserAnswer());
     }
 }

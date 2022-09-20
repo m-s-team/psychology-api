@@ -9,8 +9,8 @@ import ml.psychology.api.repository.barrett.BarrettTestRepository;
 import ml.psychology.api.repository.barrett.VerbalAnalysisAnswerRepository;
 import ml.psychology.api.repository.barrett.VerbalAnalysisSubTemplateRepository;
 import ml.psychology.api.repository.barrett.VerbalAnalysisTemplateRepository;
-import ml.psychology.api.service.barrett.dto.TestAnswersDTO;
 import ml.psychology.api.service.barrett.dto.VerbalAnalysisDTO;
+import ml.psychology.api.service.barrett.dto.answer.VerbalAnswerDTO;
 import ml.psychology.api.service.barrett.mapper.VerbalAnalysisMapper;
 import org.springframework.stereotype.Service;
 
@@ -77,7 +77,7 @@ public class VerbalAnalysisService {
         );
     }
 
-    public VerbalAnalysisDTO updateUserAnswers(Long assessmentId, TestAnswersDTO answers) throws TimeLimitExceededException {
+    public VerbalAnalysisDTO updateUserAnswers(Long assessmentId, List<VerbalAnswerDTO> answers) throws TimeLimitExceededException {
         BarrettTest assessment = barrettTestRepository.findById(assessmentId).orElseThrow();
 
         // throw EntityExistsException if subtest not exists
@@ -96,7 +96,7 @@ public class VerbalAnalysisService {
 
         List<VerbalAnalysisAnswer> verbalAnalysisAnswers = answerRepository.findByAssessment(assessment);
         verbalAnalysisMapper.mergeToAnswers(
-                answers.getUserAnswers(),
+                answers,
                 verbalAnalysisAnswers
         );
 

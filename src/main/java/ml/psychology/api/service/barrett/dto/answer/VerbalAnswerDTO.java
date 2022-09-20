@@ -8,14 +8,14 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Data
-@Schema(name = "VisualAnswer")
-public class VisualAnswerDTO {
+@Schema(name = "VerbalAnswer")
+public class VerbalAnswerDTO {
 
     @NotNull
     int id;
 
     @NotNull
-    @Max(5)
+    @Max(6)
     @Min(0)
     int userAnswer;
 }
