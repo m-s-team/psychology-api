@@ -6,7 +6,7 @@ import ml.psychology.api.domain.barrett.subtest.VisualReasoningSubtest;
 import ml.psychology.api.domain.barrett.template.VisualReasoningTemplate;
 import ml.psychology.api.service.barrett.dto.VisualReasoningDTO;
 import ml.psychology.api.service.barrett.dto.VisualReasoningTestDTO;
-import ml.psychology.api.service.barrett.dto.answer.TestAnswerDTO;
+import ml.psychology.api.service.barrett.dto.answer.VisualAnswerDTO;
 import org.mapstruct.*;
 
 import java.util.Iterator;
@@ -36,7 +36,7 @@ public interface VisualReasoningMapper {
 
     @AfterMapping
     default void mergeToDto(List<VisualReasoningAnswer> answers, @MappingTarget VisualReasoningDTO vrDTO) {
-        Long id = 0L;
+        int id = 0;
         Iterator<VisualReasoningTestDTO> test = vrDTO.tests().iterator();
         while (test.hasNext()) test.next().setId(id++);
 
@@ -47,9 +47,9 @@ public interface VisualReasoningMapper {
         }
     }
 
-    default void mergeToAnswers(List<TestAnswerDTO> userAnswers, @MappingTarget List<VisualReasoningAnswer> answers) {
+    default void mergeToAnswers(List<VisualAnswerDTO> userAnswers, @MappingTarget List<VisualReasoningAnswer> answers) {
 
-        for (TestAnswerDTO userAnswer: userAnswers)
+        for (VisualAnswerDTO userAnswer: userAnswers)
             answers.get(userAnswer.getId()).setUserAnswer((byte) userAnswer.getUserAnswer());
     }
 

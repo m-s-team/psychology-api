@@ -9,7 +9,7 @@ import ml.psychology.api.repository.barrett.BarrettTestRepository;
 import ml.psychology.api.repository.barrett.VisualReasoningAnswerRepository;
 import ml.psychology.api.repository.barrett.VisualReasoningTemplateRepository;
 import ml.psychology.api.service.barrett.dto.VisualReasoningDTO;
-import ml.psychology.api.service.barrett.dto.answer.TestAnswerDTO;
+import ml.psychology.api.service.barrett.dto.answer.VisualAnswerDTO;
 import ml.psychology.api.service.barrett.mapper.VisualReasoningMapper;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +78,7 @@ public class VisualReasoningService {
         );
     }
 
-    public VisualReasoningDTO updateUserAnswers(Long assessmentId, List<TestAnswerDTO> answers) throws TimeLimitExceededException {
+    public VisualReasoningDTO updateUserAnswers(Long assessmentId, List<VisualAnswerDTO> answers) throws TimeLimitExceededException {
         BarrettTest assessment = barrettTestRepository.findById(assessmentId).orElseThrow();
 
         // throw EntityExistsException if subtest not exists

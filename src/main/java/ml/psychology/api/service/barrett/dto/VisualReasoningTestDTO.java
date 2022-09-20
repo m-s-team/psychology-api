@@ -4,16 +4,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import ml.psychology.api.domain.barrett.enumeration.VisualReasoningTemplateType;
 
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Data
 @Schema(name = "VisualReasoningTest")
 public class VisualReasoningTestDTO {
-        @Id
+        @NotNull
         @Schema(description = "Id of the test (test index, start with 0)", example = "1")
-        Long id;
+        int id;
 
         @NotNull
         @Schema(description = "The type of the test", example = "next")

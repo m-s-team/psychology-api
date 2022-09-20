@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import ml.psychology.api.service.barrett.VisualReasoningService;
 import ml.psychology.api.service.barrett.dto.VisualReasoningDTO;
-import ml.psychology.api.service.barrett.dto.answer.TestAnswerDTO;
+import ml.psychology.api.service.barrett.dto.answer.VisualAnswerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -158,7 +158,7 @@ public class VisualReasoningResource {
     })
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(produces = "application/json")
-    public VisualReasoningDTO updateVisualReasoning(@PathVariable Long id, @RequestBody @Valid List<TestAnswerDTO> answers) {
+    public VisualReasoningDTO updateVisualReasoning(@PathVariable Long id, @RequestBody @Valid List<VisualAnswerDTO> answers) {
         try {
             return visualReasoningService.updateUserAnswers(id, answers);
         } catch (TimeLimitExceededException e) {

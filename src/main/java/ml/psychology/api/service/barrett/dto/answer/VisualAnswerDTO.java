@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Schema(name = "TestAnswer")
-public class TestAnswerDTO {
+public class VisualAnswerDTO {
 
     @NotNull
     int id;
