@@ -36,7 +36,7 @@ public interface NumericalReasoningMapper {
 
     @AfterMapping
     default void mergeToDto(List<NumericalReasoningAnswer> answers, @MappingTarget NumericalReasoningDTO vrDTO) {
-        Long id = 0L;
+        int id = 0;
         Iterator<NumericalReasoningQuestionDTO> question = vrDTO.questions().iterator();
         while (question.hasNext()) question.next().setId(id++);
 
