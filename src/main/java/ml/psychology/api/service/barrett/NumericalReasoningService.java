@@ -8,8 +8,8 @@ import ml.psychology.api.domain.barrett.template.NumericalReasoningTemplate;
 import ml.psychology.api.repository.barrett.BarrettTestRepository;
 import ml.psychology.api.repository.barrett.NumericalReasoningAnswerRepository;
 import ml.psychology.api.repository.barrett.NumericalReasoningTemplateRepository;
-import ml.psychology.api.service.barrett.dto.NumericalAnswersDTO;
 import ml.psychology.api.service.barrett.dto.NumericalReasoningDTO;
+import ml.psychology.api.service.barrett.dto.answer.NumericalAnswerDTO;
 import ml.psychology.api.service.barrett.mapper.NumericalReasoningMapper;
 import org.springframework.stereotype.Service;
 
@@ -74,7 +74,7 @@ public class NumericalReasoningService {
         );
     }
 
-    public NumericalReasoningDTO updateUserAnswers(Long assessmentId, NumericalAnswersDTO answers) throws TimeLimitExceededException {
+    public NumericalReasoningDTO updateUserAnswers(Long assessmentId, List<NumericalAnswerDTO> answers) throws TimeLimitExceededException {
         BarrettTest assessment = barrettTestRepository.findById(assessmentId).orElseThrow();
 
         // throw EntityExistsException if subtest not exists
@@ -93,7 +93,7 @@ public class NumericalReasoningService {
 
         List<NumericalReasoningAnswer> numericalReasoningAnswers = answerRepository.findByAssessment(assessment);
         numericalReasoningMapper.mergeToAnswers(
-                answers.getUserAnswers(),
+                answers,
                 numericalReasoningAnswers
         );
 

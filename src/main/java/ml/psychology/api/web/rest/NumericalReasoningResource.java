@@ -10,13 +10,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import ml.psychology.api.service.barrett.NumericalReasoningService;
-import ml.psychology.api.service.barrett.dto.NumericalAnswersDTO;
 import ml.psychology.api.service.barrett.dto.NumericalReasoningDTO;
+import ml.psychology.api.service.barrett.dto.answer.NumericalAnswerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,7 +27,9 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
+@Validated
 @Tag(name = "Numerical Reasoning Subtest", description = "A subtest of James Barrett test")
 @RestController
 @RequestMapping("/barrett/{id}/numerical-reasoning")
@@ -155,13 +158,15 @@ public class NumericalReasoningResource {
     })
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(produces = "application/json")
-    public NumericalReasoningDTO updateNumericalReasoning(@PathVariable Long id, @Valid @RequestBody NumericalAnswersDTO answers) {
+    public NumericalReasoningDTO updateNumericalReasoning(@PathVariable Long id, @RequestBody @Valid List<NumericalAnswerDTO> answers) {
         try {
             return numericalReasoningService.updateUserAnswers(id, answers);
         } catch (TimeLimitExceededException e) {
             throw new ResponseStatusException(HttpStatus.LOCKED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } catch (IndexOutOfBoundsException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 }

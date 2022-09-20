@@ -9,6 +9,9 @@ import java.util.List;
 @Data
 @Schema(name = "NumericalReasoningQuestion")
 public class NumericalReasoningQuestionDTO {
+        @NotNull
+        @Schema(description = "Id of the question (question index, start with 0)", example = "1")
+        Long id;
 
         @NotNull
         @Schema(description = "Question of the test", example = "[[1,2,3,4],[2,-,6,?]]")

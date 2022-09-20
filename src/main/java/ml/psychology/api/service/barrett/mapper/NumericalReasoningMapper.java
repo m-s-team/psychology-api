@@ -6,6 +6,7 @@ import ml.psychology.api.domain.barrett.subtest.NumericalReasoningSubtest;
 import ml.psychology.api.domain.barrett.template.NumericalReasoningTemplate;
 import ml.psychology.api.service.barrett.dto.NumericalReasoningDTO;
 import ml.psychology.api.service.barrett.dto.NumericalReasoningQuestionDTO;
+import ml.psychology.api.service.barrett.dto.answer.NumericalAnswerDTO;
 import org.mapstruct.*;
 
 import java.util.Iterator;
@@ -13,8 +14,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface NumericalReasoningMapper {
-
-    NumericalReasoningDTO templateToQuestionDto(NumericalReasoningTemplate template);
 
     List<NumericalReasoningAnswer> templatesToAnswers(List<NumericalReasoningTemplate> templates, @Context BarrettTest assessment);
 
@@ -27,6 +26,9 @@ public interface NumericalReasoningMapper {
         answer.setAssessment(assessment);
     }
 
+    @Mapping(target = "id", ignore = true)
+    NumericalReasoningQuestionDTO templateToQuestionDto(NumericalReasoningTemplate template);
+
     NumericalReasoningDTO mergeToDto(NumericalReasoningSubtest subtest,
                                      int requiredTime,
                                      List<NumericalReasoningTemplate> questions,
@@ -34,21 +36,20 @@ public interface NumericalReasoningMapper {
 
     @AfterMapping
     default void mergeToDto(List<NumericalReasoningAnswer> answers, @MappingTarget NumericalReasoningDTO vrDTO) {
+        Long id = 0L;
         Iterator<NumericalReasoningQuestionDTO> question = vrDTO.questions().iterator();
+        while (question.hasNext()) question.next().setId(id++);
+
+        question = vrDTO.questions().iterator();
         Iterator<NumericalReasoningAnswer> answer = answers.iterator();
-        while (answer.hasNext() && question.hasNext()) {
+        while (question.hasNext()) {
             question.next().setUserAnswer(answer.next().getUserAnswer());
         }
     }
 
 
-    default void mergeToAnswers(
-            List<Integer> userAnswers,
-            @MappingTarget List<NumericalReasoningAnswer> answers) {
-        Iterator<Integer> dto = userAnswers.iterator();
-        Iterator<NumericalReasoningAnswer> answer = answers.iterator();
-        while (answer.hasNext() && dto.hasNext()) {
-            answer.next().setUserAnswer(dto.next().byteValue());
-        }
+    default void mergeToAnswers(List<NumericalAnswerDTO> userAnswers, @MappingTarget List<NumericalReasoningAnswer> answers) {
+        for (NumericalAnswerDTO userAnswer: userAnswers)
+            answers.get(userAnswer.getId()).setUserAnswer(userAnswer.getUserAnswer());
     }
 }

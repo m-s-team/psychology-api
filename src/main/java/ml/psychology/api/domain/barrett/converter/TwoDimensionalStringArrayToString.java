@@ -16,7 +16,6 @@ public class TwoDimensionalStringArrayToString implements AttributeConverter<Lis
     }
 
     public List<List<String>> convertToEntityAttribute(String dbData) {
-        System.out.println("NumericalReasoningQuestion DB Data: " + dbData);
         return Arrays.stream(dbData.split("\\|"))
                 .map(s -> Arrays.stream(s.split(",")).collect(Collectors.toList()))
                 .collect(Collectors.toList());
