@@ -10,13 +10,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import ml.psychology.api.service.barrett.SequentialReasoningService;
-import ml.psychology.api.service.barrett.dto.SequentialAnswersDTO;
 import ml.psychology.api.service.barrett.dto.SequentialReasoningDTO;
+import ml.psychology.api.service.barrett.dto.answer.SequentialAnswerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,7 +27,9 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
+@Validated
 @Tag(name = "Sequential Reasoning Subtest", description = "A subtest of James Barrett test")
 @RestController
 @RequestMapping("/barrett/{id}/sequential-reasoning")
@@ -156,7 +159,7 @@ public class SequentialReasoningResource {
     })
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(produces = "application/json")
-    public SequentialReasoningDTO updateSequentialReasoning(@PathVariable Long id, @Valid @RequestBody SequentialAnswersDTO answers) {
+    public SequentialReasoningDTO updateSequentialReasoning(@PathVariable Long id, @Valid @RequestBody List<SequentialAnswerDTO> answers) {
         try {
             return sequentialReasoningService.updateUserAnswers(id, answers);
         } catch (TimeLimitExceededException e) {

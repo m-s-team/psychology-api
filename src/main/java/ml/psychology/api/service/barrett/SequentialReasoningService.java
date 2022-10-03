@@ -8,8 +8,8 @@ import ml.psychology.api.domain.barrett.template.SequentialReasoningTemplate;
 import ml.psychology.api.repository.barrett.BarrettTestRepository;
 import ml.psychology.api.repository.barrett.SequentialReasoningAnswerRepository;
 import ml.psychology.api.repository.barrett.SequentialReasoningTemplateRepository;
-import ml.psychology.api.service.barrett.dto.SequentialAnswersDTO;
 import ml.psychology.api.service.barrett.dto.SequentialReasoningDTO;
+import ml.psychology.api.service.barrett.dto.answer.SequentialAnswerDTO;
 import ml.psychology.api.service.barrett.mapper.SequentialReasoningMapper;
 import org.springframework.stereotype.Service;
 
@@ -75,7 +75,7 @@ public class SequentialReasoningService {
         );
     }
 
-    public SequentialReasoningDTO updateUserAnswers(Long assessmentId, SequentialAnswersDTO answers) throws TimeLimitExceededException {
+    public SequentialReasoningDTO updateUserAnswers(Long assessmentId, List<SequentialAnswerDTO> answers) throws TimeLimitExceededException {
         BarrettTest assessment = barrettTestRepository.findById(assessmentId).orElseThrow();
 
         // throw EntityExistsException if subtest not exists
@@ -94,7 +94,7 @@ public class SequentialReasoningService {
 
         List<SequentialReasoningAnswer> sequentialReasoningAnswers = answerRepository.findByAssessment(assessment);
         sequentialReasoningMapper.mergeToAnswers(
-                answers.getUserAnswers(),
+                answers,
                 sequentialReasoningAnswers
         );
 

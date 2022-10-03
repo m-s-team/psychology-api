@@ -33,8 +33,8 @@ jobs:
         env:
           ARVAN_PAAS_TOKEN: Apikey f38d1a24-f27d-564e-aecc-f89aa0588f58
         run: |
-          wget https://github.com/arvancloud/cli/releases/download/v1.1.3-alpha/arvan_1.1.3-alpha_linux_amd64.tar.gz
-          tar -xf arvan_1.1.3-alpha_linux_amd64.tar.gz
+          wget https://github.com/arvancloud/cli/releases/download/v1.1.4-alpha/arvan_1.1.4-alpha_linux_amd64.tar.gz
+          tar -xf arvan_1.1.4-alpha_linux_amd64.tar.gz
           chmod +x ./arvan
           ./arvan update
           echo $ARVAN_PAAS_TOKEN | ./arvan login

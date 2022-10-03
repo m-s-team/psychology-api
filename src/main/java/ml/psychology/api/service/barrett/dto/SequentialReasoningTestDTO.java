@@ -12,6 +12,10 @@ import java.util.Set;
 @Schema(name = "SequentialReasoningTest")
 public class SequentialReasoningTestDTO {
 
+    @NotNull
+    @Schema(description = "Id of the test (test index, start with 0)", example = "1")
+    int id;
+
     @Schema(description = "Image URL of the test")
     String imageUrl;
 
