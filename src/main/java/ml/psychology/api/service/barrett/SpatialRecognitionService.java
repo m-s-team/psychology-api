@@ -4,12 +4,13 @@ import ml.psychology.api.config.Constants;
 import ml.psychology.api.domain.barrett.BarrettTest;
 import ml.psychology.api.domain.barrett.answer.SpatialRecognitionAnswer;
 import ml.psychology.api.domain.barrett.subtest.SpatialRecognitionSubtest;
-import ml.psychology.api.domain.barrett.template.SpatialRecognitionTemplate;
+import ml.psychology.api.domain.barrett.template.SpatialRecognitionSubTemplate;
 import ml.psychology.api.repository.barrett.BarrettTestRepository;
 import ml.psychology.api.repository.barrett.SpatialRecognitionAnswerRepository;
+import ml.psychology.api.repository.barrett.SpatialRecognitionSubTemplateRepository;
 import ml.psychology.api.repository.barrett.SpatialRecognitionTemplateRepository;
-import ml.psychology.api.service.barrett.dto.SpatialAnswersDTO;
 import ml.psychology.api.service.barrett.dto.SpatialRecognitionDTO;
+import ml.psychology.api.service.barrett.dto.answer.SpatialAnswerDTO;
 import ml.psychology.api.service.barrett.mapper.SpatialRecognitionMapper;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +27,14 @@ public class SpatialRecognitionService {
 
     private final BarrettTestRepository barrettTestRepository;
     private final SpatialRecognitionTemplateRepository templateRepository;
+    private final SpatialRecognitionSubTemplateRepository subTemplateRepository;
     private final SpatialRecognitionAnswerRepository answerRepository;
     private final SpatialRecognitionMapper spatialRecognitionMapper;
 
-    public SpatialRecognitionService(BarrettTestRepository barrettTestRepository, SpatialRecognitionTemplateRepository templateRepository, SpatialRecognitionAnswerRepository answerRepository, SpatialRecognitionMapper spatialRecognitionMapper) {
+    public SpatialRecognitionService(BarrettTestRepository barrettTestRepository, SpatialRecognitionTemplateRepository templateRepository, SpatialRecognitionSubTemplateRepository subTemplateRepository, SpatialRecognitionAnswerRepository answerRepository, SpatialRecognitionMapper spatialRecognitionMapper) {
         this.barrettTestRepository = barrettTestRepository;
         this.templateRepository = templateRepository;
+        this.subTemplateRepository = subTemplateRepository;
         this.answerRepository = answerRepository;
         this.spatialRecognitionMapper = spatialRecognitionMapper;
     }
@@ -49,13 +52,14 @@ public class SpatialRecognitionService {
         subtest.setCreatedDate(now);
         subtest.setCompletedDate(now);
 
-        List<SpatialRecognitionTemplate> templates = templateRepository.findAll();
+        List<SpatialRecognitionSubTemplate> subTemplates = subTemplateRepository.findAll();
         barrettTestRepository.save(assessment);
+
         return spatialRecognitionMapper.mergeToDto(
                 subtest,
                 Constants.SPATIAL_RECOGNITION_REQUIRED_MINUTE,
-                templates,
-                answerRepository.saveAll(spatialRecognitionMapper.templatesToAnswers(templates, assessment))
+                templateRepository.findAll(),
+                answerRepository.saveAll(spatialRecognitionMapper.subTemplatesToAnswers(subTemplates, assessment))
         );
     }
 
@@ -74,7 +78,7 @@ public class SpatialRecognitionService {
         );
     }
 
-    public SpatialRecognitionDTO updateUserAnswers(Long assessmentId, SpatialAnswersDTO answers) throws TimeLimitExceededException {
+    public SpatialRecognitionDTO updateUserAnswers(Long assessmentId, List<SpatialAnswerDTO> answers) throws TimeLimitExceededException {
         BarrettTest assessment = barrettTestRepository.findById(assessmentId).orElseThrow();
 
         // throw EntityExistsException if subtest not exists
@@ -93,7 +97,7 @@ public class SpatialRecognitionService {
 
         List<SpatialRecognitionAnswer> spatialRecognitionAnswers = answerRepository.findByAssessment(assessment);
         spatialRecognitionMapper.mergeToAnswers(
-                answers.getUserAnswers(),
+                answers,
                 spatialRecognitionAnswers
         );
 

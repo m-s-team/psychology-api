@@ -16,6 +16,6 @@ public record SpatialRecognitionDTO(
         @Schema(description = "Required time for this subtest in minutes", example = "10")
         int requiredTime,
         @Schema(description = "List of the Questions")
-        Set<SpatialRecognitionTestDTO> tests
+        Set<SpatialRecognitionTestGroupDTO> testGroups
 ) {
 }

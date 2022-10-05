@@ -4,7 +4,7 @@ databaseChangeLog:
       author: hasan
       changes:
         - createTable:
-            tableName: spatial_recognition_template
+            tableName: spatial_recognition_sub_template
             columns:
               - column:
                   name: id
@@ -13,13 +13,23 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: context_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
                   name: image_url
                   type: varchar(255)
+              - column:
+                  name: correct_answer
+                  type: tinyint
+                  constraints:
+                    nullable: false
   - changeSet:
       id: 000-data
       author: hasan
       changes:
         - loadData:
-            tableName: spatial_recognition_template
-            file: /db/fake-data/spatial_recognition_template.csv
+            tableName: spatial_recognition_sub_template
+            file: /db/fake-data/spatial_recognition_sub_template.csv
             separator: ;

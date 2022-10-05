@@ -13,13 +13,13 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: test_template_id
+                  name: test_sub_template_id
                   type: bigint
                   constraints:
                     nullable: false
               - column:
-                  name: user_answers
-                  type: varchar(20)
+                  name: user_answer
+                  type: tinyint
                   constraints:
                     nullable: false
               - column:
