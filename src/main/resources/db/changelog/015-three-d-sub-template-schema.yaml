@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000
+      author: hasan
+      changes:
+        - createTable:
+            tableName: three_d_sub_template
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: context_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: option_image_urls
+                  type: varchar(511)
+              - column:
+                  name: correct_answer
+                  type: tinyint
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 000-data
+      author: hasan
+      changes:
+        - loadData:
+            tableName: three_d_sub_template
+            file: /db/fake-data/three_d_sub_template.csv
+            separator: ;

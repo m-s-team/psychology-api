@@ -27,3 +27,7 @@ databaseChangeLog:
       file: /db/changelog/012-spatial-recognition-sub-template-schema.yaml
   - include:
       file: /db/changelog/013-spatial-recognition-answer-schema.yaml
+  - include:
+      file: /db/changelog/014-three-d-template-schema.yaml
+  - include:
+      file: /db/changelog/015-three-d-sub-template-schema.yaml
