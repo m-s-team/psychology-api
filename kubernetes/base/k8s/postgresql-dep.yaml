@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+        - name: postgresql
+          image: postgres
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: postgresql
+          ports:
+            - name: tcp
+              containerPort: 5432
+          resources:
+            limits:
+              cpu: 0.2
+              memory: 200Mi
+            requests:
+              cpu: 0.1
+              memory: 100Mi
+      imagePullSecrets:
+        - name: duckerhub

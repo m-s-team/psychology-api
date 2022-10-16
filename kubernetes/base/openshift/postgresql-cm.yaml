@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql
+data:
+  POSTGRES_DB: api
+  POSTGRES_PASSWORD: 2b8*par2dar

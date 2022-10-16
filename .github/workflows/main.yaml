@@ -21,6 +21,7 @@ jobs:
           --image=ghcr.io/$GITHUB_REPOSITORY
 
   arvan-pass-deploy:
+    if: false
     runs-on: ubuntu-latest
     needs: [build-and-package]
     container:
@@ -40,3 +41,43 @@ jobs:
           echo $ARVAN_PAAS_TOKEN | ./arvan login
       - name: Deploy On Arvan PaaS
         run: ./arvan paas apply -k kubernetes/overlays/arvan-paas
+
+  homesys-deploy:
+    runs-on: ubuntu-latest
+    needs: [ build-and-package ]
+    container:
+      image: bitnami/kubectl
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Kubernetes server address
+        run: kubectl config set-cluster homesys-online --server="https://k3s.homesys.tk"
+      - name: Set up github service account tocken
+        run: kubectl config set-credentials github --token=${{ secrets.GH_SA_TOKEN }}
+      - name: Set up default config context
+        run: kubectl config set-context default --cluster=homesys-online --user=github
+      - name: Use default context
+        run: kubectl config use-context default
+      - name: Deploy microservice into the homesys Kubernetes cluster
+        run: kubectl apply -k kubernetes/overlays/homesys
+
+  agento-deploy:
+    runs-on: ubuntu-latest
+    needs: [build-and-package]
+    container:
+      image: alpine
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Prepare the Arvan CLI
+        timeout-minutes: 2
+        env:
+          ARVAN_PAAS_TOKEN: Apikey f38d1a24-f27d-564e-aecc-f89aa0588f58
+        run: |
+          wget https://github.com/arvancloud/cli/releases/download/v1.1.4-alpha/arvan_1.1.4-alpha_linux_amd64.tar.gz
+          tar -xf arvan_1.1.4-alpha_linux_amd64.tar.gz
+          chmod +x ./arvan
+          ./arvan update
+          echo $ARVAN_PAAS_TOKEN | ./arvan login
+      - name: Deploy On Arvan PaaS
+        run: ./arvan paas apply -k kubernetes/overlays/agento

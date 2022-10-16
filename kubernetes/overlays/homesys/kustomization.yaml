@@ -1,0 +1,4 @@
+namespace: psychology
+
+bases:
+  - ../../base/k8s
