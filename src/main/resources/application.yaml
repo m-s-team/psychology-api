@@ -20,3 +20,6 @@ springdoc:
     authorizationUrl: https://dev-41tfcxyn.us.auth0.com/authorize
     tokenUrl: https://dev-41tfcxyn.us.auth0.com/oauth/token
   show-actuator: true
+server:
+  # https://medium.com/swlh/swagger-spring-boot-2-with-a-reverse-proxy-in-docker-8a8795aa3da4
+  forward-headers-strategy: framework
