@@ -66,7 +66,8 @@ public class SecurityConfiguration {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "https://api.psychology.ml",      // Documentation (Swagger UI and ReDoc)
-                                "https://www.psychology.ml",      // Web Application
+                                "https://web.psychology.ml",      // Angular Web Application
+                                "https://www.psychology.ml",      // React Web Application
                                 "http://localhost:4200",          // Angular Dev. Env.
                                 "https://localhost:4200",         // Angular Dev. Env. (TLS)
                                 "http://localhost:3000",          // React Dev. Env.
