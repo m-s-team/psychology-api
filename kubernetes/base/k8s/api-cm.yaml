@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: api
 data:
+  JAVA_OPTS: -server -Xms500m -Xmx450m
   spring_profiles_active: prod
   POSTGRESQL_URL: jdbc:postgresql://postgresql/api
   POSTGRESQL_USERNAME: postgres
