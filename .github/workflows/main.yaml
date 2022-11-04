@@ -30,15 +30,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Prepare the Arvan CLI
-        timeout-minutes: 2
+        timeout-minutes: 3
         env:
-          ARVAN_PAAS_TOKEN: Apikey f38d1a24-f27d-564e-aecc-f89aa0588f58
+          ARVAN_PAAS_TOKEN: ${{ secrets.ARVAN_PAAS_TOKEN }}
         run: |
-          wget https://github.com/arvancloud/cli/releases/download/v1.1.4-alpha/arvan_1.1.4-alpha_linux_amd64.tar.gz
-          tar -xf arvan_1.1.4-alpha_linux_amd64.tar.gz
+          wget https://paasgeneral.s3.ir-thr-at1.arvanstorage.com/cli/linux/amd64/arvan
           chmod +x ./arvan
           ./arvan update
-          echo $ARVAN_PAAS_TOKEN | ./arvan login
+          ./arvan login << EOF
+          1
+          $ARVAN_PAAS_TOKEN
+          EOF
       - name: Deploy On Arvan PaaS
         run: ./arvan paas apply -k kubernetes/overlays/arvan-paas
 
@@ -65,19 +67,18 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-and-package]
     container:
-      image: alpine
+      image: bitnami/kubectl
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Prepare the Arvan CLI
-        timeout-minutes: 2
-        env:
-          ARVAN_PAAS_TOKEN: Apikey f38d1a24-f27d-564e-aecc-f89aa0588f58
-        run: |
-          wget https://github.com/arvancloud/cli/releases/download/v1.1.4-alpha/arvan_1.1.4-alpha_linux_amd64.tar.gz
-          tar -xf arvan_1.1.4-alpha_linux_amd64.tar.gz
-          chmod +x ./arvan
-          ./arvan update
-          echo $ARVAN_PAAS_TOKEN | ./arvan login
+      - name: Set up Arvan PaaS address
+        run: kubectl config set-cluster arvancloud --server="https://napi.arvancloud.com/paas/v1/regions/ir-thr-ba1/o/"
+      - name: Set up user tocken
+        run: kubectl config set-credentials arvancloud-user --token="${{ secrets.ARVAN_PAAS_TOKEN }}"
+      - name: Set up default config context
+        run: kubectl config set-context default --cluster=arvancloud --user=arvancloud-user
+      - name: Use default context
+        run: kubectl config use-context default
       - name: Deploy On Arvan PaaS
-        run: ./arvan paas apply -k kubernetes/overlays/agento
+        timeout-minutes: 3
+        run: kubectl apply -k kubernetes/overlays/agento

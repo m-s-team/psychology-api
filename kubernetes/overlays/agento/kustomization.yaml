@@ -1,2 +1,4 @@
+namespace: agento
+
 resources:
   - api-rt.yaml
