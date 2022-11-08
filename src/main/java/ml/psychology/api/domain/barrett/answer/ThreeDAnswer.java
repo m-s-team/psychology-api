@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
+@Table(name = "THREE_D_ANSWER")
 public class ThreeDAnswer {
 
     @Id

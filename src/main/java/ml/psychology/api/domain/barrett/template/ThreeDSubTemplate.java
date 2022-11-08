@@ -14,6 +14,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "THREE_D_SUB_TEMPLATE")
 public class ThreeDSubTemplate {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

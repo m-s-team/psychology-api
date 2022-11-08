@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Data
 @Entity
+@Table(name = "THREE_D_TEMPLATE")
 public class ThreeDTemplate {
 
     @Id

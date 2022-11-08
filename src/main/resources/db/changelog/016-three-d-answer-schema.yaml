@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000
+      author: hasan
+      changes:
+        - createTable:
+            tableName: three_d_answer
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: test_sub_template_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_answer
+                  type: tinyint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: assessment_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 000-data
+      author: hasan
+      changes:
+        - loadData:
+            tableName: three_d_answer
+            file: /db/fake-data/three_d_answer.csv
+            separator: ;
