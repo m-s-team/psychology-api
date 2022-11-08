@@ -8,3 +8,4 @@ data:
   POSTGRESQL_URL: jdbc:postgresql://postgresql/api
   POSTGRESQL_USERNAME: postgres
   POSTGRESQL_PASSWORD: 2b8*par2dar
+  DEBUG: "true"

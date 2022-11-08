@@ -72,7 +72,8 @@ public class SecurityConfiguration {
                                 "https://localhost:4200",         // Angular Dev. Env. (TLS)
                                 "http://localhost:3000",          // React Dev. Env.
                                 "https://localhost:3000"          // React Dev. Env. (TLS)
-                        );
+                        )
+                        .allowedMethods("*");
             }
         };
     }
